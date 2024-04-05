@@ -1,0 +1,471 @@
+CREATE TABLE IF NOT EXISTS "Program" (
+  "Program_ID" SERIAL,
+  "Program_Name" varchar(100) UNIQUE NOT NULL,
+  PRIMARY KEY ("Program_ID")
+);
+
+CREATE TABLE IF NOT EXISTS "Team" (
+  "Team_ID" SERIAL,
+  "Team_Name" varchar(100) UNIQUE NOT NULL,
+  PRIMARY KEY ("Team_ID")
+);
+
+CREATE TABLE IF NOT EXISTS "Employee" (
+  "Employee_ID" SERIAL,
+  "Team_ID" int,
+  "Name" varchar(100),
+  "Username" varchar(100) UNIQUE NOT NULL,
+  "Password" varchar(100) NOT NULL,
+  "Role" varchar(100) NOT NULL,
+  "Designation" varchar(100),
+  PRIMARY KEY ("Employee_ID"),
+  CONSTRAINT "FK_Employee.Team_ID"
+    FOREIGN KEY ("Team_ID")
+      REFERENCES "Team"("Team_ID")
+);
+
+CREATE TABLE IF NOT EXISTS "Functional_Area" (
+  "Functional_Area_ID" SERIAL,
+  "Area_Name" varchar(100) UNIQUE NOT NULL,
+  PRIMARY KEY ("Functional_Area_ID")
+);
+
+CREATE TABLE IF NOT EXISTS "Bug" (
+  "Problem_Report_Number" SERIAL,
+  "Program_ID" int,
+  "Report_Type" varchar(100),
+  "Severity" varchar(100),
+  "Problem_Summary" varchar(8000) NOT NULL,
+  "Can_Reproduce" boolean,
+  "Problem_Description" varchar(8000),
+  "Suggested_Fix" varchar(8000),
+  "Reported_By" int NOT NULL,
+  "Date_Reported" date,
+  "Functional_Area_ID" int,
+  "Assigned_To_Employee_ID" int,
+  "Assigned_To_Team_ID" int,
+  "Comments" varchar(8000),
+  "Status" varchar(100),
+  "Priority" varchar(100),
+  "Resolution" varchar(100),
+  "Resolution_Version" varchar(100),
+  "Resolved_By" int,
+  "Resolved_Date" date,
+  "Resolution_Tested_By" int,
+  "Resolution_Tested_Date" date,
+  PRIMARY KEY ("Problem_Report_Number"),
+  CONSTRAINT "FK_Bug.Program_ID"
+    FOREIGN KEY ("Program_ID")
+      REFERENCES "Program"("Program_ID"),
+  CONSTRAINT "FK_Bug.Reported_By"
+    FOREIGN KEY ("Reported_By")
+      REFERENCES "Employee"("Employee_ID"),
+  CONSTRAINT "FK_Bug.Resolved_By"
+    FOREIGN KEY ("Resolved_By")
+      REFERENCES "Employee"("Employee_ID"),
+  CONSTRAINT "FK_Bug.Resolution_Tested_By"
+    FOREIGN KEY ("Resolution_Tested_By")
+      REFERENCES "Employee"("Employee_ID"),
+  CONSTRAINT "FK_Bug.Functional_Area_ID"
+    FOREIGN KEY ("Functional_Area_ID")
+      REFERENCES "Functional_Area"("Functional_Area_ID"),
+  CONSTRAINT "FK_Bug.Assigned_To_Employee_ID"
+    FOREIGN KEY ("Assigned_To_Employee_ID")
+      REFERENCES "Employee"("Employee_ID"),
+  CONSTRAINT "FK_Bug.Assigned_To_Team_ID"
+    FOREIGN KEY ("Assigned_To_Team_ID")
+      REFERENCES "Team"("Team_ID")
+);
+
+CREATE TABLE IF NOT EXISTS "Attachment" (
+  "Attachment_ID" SERIAL,
+  "Problem_Report_Number" int,
+  "File_Name" varchar(300) NOT NULL,
+  "Attachment_Content" bytea NOT NULL,
+  PRIMARY KEY ("Attachment_ID"),
+  CONSTRAINT "FK_Attachment.Problem_Report_Number"
+    FOREIGN KEY ("Problem_Report_Number")
+      REFERENCES "Bug"("Problem_Report_Number")
+);
+
+
+
+INSERT INTO "Program" ("Program_Name") 
+VALUES 
+('Java 8u0'),
+('Python 3.9'),
+('C++ Builder 10.4'),
+('JavaScript Node.js'),
+('Ruby on Rails'),
+('Swift 5.3'),
+('PHP 7.4'),
+('HTML5/CSS3'),
+('React Native'),
+( 'Angular 11'),
+( 'Unity 2020'),
+( 'TensorFlow 2.5'),
+( 'Django 3.2'),
+( 'SQL Server 2019'),
+( 'MongoDB 4.4'),
+( 'Apache Kafka'),
+( 'Elasticsearch 7.10'),
+( 'Vue.js'),
+( 'Go 1.16'),
+( 'Rust 1.50'),
+( 'Scala 2.13'),
+( 'Perl 5.32'),
+( 'Haskell GHC 8.10'),
+( 'Julia 1.6'),
+( 'Kotlin 1.5'),
+( 'Lua 5.4'),
+( 'Arduino IDE'),
+( 'MATLAB R2021a'),
+( 'Android Studio 4.2'),
+( 'Xamarin'),
+( 'Adobe Photoshop CC'),
+( 'Microsoft Excel 365'),
+( 'AutoCAD 2022'),
+( 'Blender 2.92'),
+( 'SketchUp 2021'),
+( 'Sublime Text 4'),
+( 'Visual Studio Code'),
+( 'Atom'),
+( 'NetBeans 12.4'),
+( 'Eclipse 2021'),
+( 'IntelliJ IDEA 2021'),
+( 'PyCharm 2021'),
+( 'RStudio'),
+( 'Jupyter Notebook'),
+( 'Postman'),
+( 'Git'),
+( 'Docker'),
+( 'Kubernetes'),
+( 'Jenkins'),
+( 'Ansible'),
+( 'Terraform'),
+( 'Vagrant'),
+( 'Chef'),
+( 'Puppet'),
+( 'Wireshark'),
+( 'Nmap'),
+( 'Metasploit'),
+( 'Burp Suite'),
+( 'OpenVAS'),
+( 'Snort'),
+( 'Splunk'),
+( 'ELK Stack'),
+( 'Grafana'),
+( 'Prometheus'),
+( 'Nagios'),
+( 'Zabbix'),
+( 'Cisco Packet Tracer'),
+( 'GNS3'),
+( 'VMware Workstation'),
+( 'VirtualBox'),
+( 'Hyper-V'),
+( 'Amazon Web Services'),
+( 'Microsoft Azure'),
+( 'Google Cloud Platform'),
+( 'IBM Cloud'),
+( 'Oracle Cloud'),
+( 'Salesforce Platform'),
+( 'SAP HANA'),
+( 'MongoDB Atlas'),
+( 'Firebase'),
+( 'Redis'),
+( 'Cassandra'),
+( 'SQLite'),
+( 'MySQL'),
+( 'MariaDB'),
+( 'Oracle Database'),
+( 'PostgreSQL'),
+( 'Microsoft SQL Server'),
+( 'DB2'),
+( 'Sybase ASE'),
+( 'Informix'),
+( 'Teradata'),
+( 'SQLiteStudio'),
+( 'phpMyAdmin'),
+( 'HeidiSQL'),
+( 'SQL Server Management Studio'),
+( 'Oracle SQL Developer'),
+( 'Toad for Oracle'),
+( 'DBVisualizer'),
+( 'Navicat');
+
+
+INSERT INTO "Team" ("Team_Name") 
+VALUES 
+('Quality Assurance'),
+('Development Team Alpha'),
+('Code Crusaders'),
+('Bug Bashers'),
+('Agile Avengers'),
+('Release Masters'),
+('Feature Force'),
+('Integration Innovators'),
+('User Experience Heroes'),
+( 'DevOps Dynamos'),
+( 'UI Wizards'),
+( 'Scrum Squad'),
+( 'Security Sentries'),
+( 'Product Pioneers'),
+( 'Automation Army'),
+( 'Backend Battalion'),
+( 'Frontend Force'),
+( 'Database Defenders'),
+( 'AI Avengers'),
+( 'Analytics All-Stars'),
+( 'Mobile Mavericks'),
+( 'Cloud Commandos'),
+( 'Infrastructure Invincibles'),
+( 'Platform Protectors'),
+( 'Support Superstars'),
+( 'Documentation Dons'),
+( 'Code Review Crew'),
+( 'Deployment Dragons'),
+( 'Release Rockstars'),
+( 'API Aces'),
+( 'Data Wizards'),
+( 'Machine Learning Masters'),
+( 'Platform Planners'),
+( 'Feature Facilitators'),
+( 'Customer Care Champions'),
+( 'Usability Unicorns'),
+( 'Performance Pioneers'),
+( 'Content Creators'),
+( 'Infrastructure Instigators'),
+( 'Test Titans');
+
+INSERT INTO "Functional_Area" ("Area_Name") 
+VALUES 
+('Product Management'),
+('Software Development'),
+('Quality Assurance'),
+('User Experience Design'),
+('Data Analysis'),
+('System Architecture'),
+('Project Management'),
+('DevOps'),
+('Technical Support'),
+( 'Sales'),
+( 'Human Resources'),
+( 'Finance'),
+( 'Operations'),
+( 'Business Development'),
+( 'Research and Development'),
+( 'Customer Success'),
+( 'Content Creation'),
+( 'Marketing'),
+( 'Legal'),
+( 'Information Technology'),
+( 'Data Science'),
+( 'Cybersecurity'),
+( 'Network Administration'),
+( 'Product Marketing'),
+( 'Brand Management'),
+( 'Community Management'),
+( 'Partnerships'),
+( 'Events Management'),
+( 'Customer Relations'),
+( 'Training and Development'),
+( 'Strategic Planning'),
+( 'Market Research'),
+( 'Public Relations'),
+( 'Analytics'),
+( 'Consulting'),
+( 'Education and Training'),
+( 'Content Strategy'),
+( 'Social Media Management'),
+( 'Technical Writing'),
+( 'Product Strategy');
+
+
+INSERT INTO "Employee" ( "Name", "Username", "Password", "Designation", "Role", "Team_ID") 
+VALUES 
+('User 1', 'user1', '$2a$04$2BDvtigrNyoIviLAiPaebu1HQSEDaggq4h./gYeeKZavHWm5D8rrq', 'Associate Professional Software Developer', 'ROLE_USER', 19), -- password=user1
+('User 2', 'user2', '$2a$13$2inU3MAJEZoCnQQF56.2GulixxVaBfONjsvSdSRK8zk7fR1KbCdqu', 'Team Lead', 'ROLE_MANAGER', 2), -- password=user2
+('User 3', 'user3', '$2a$10$B7HN6y.tDq9lyEIY.EW5y.kIoFTRw0VNReL.fzHEoc6K1..99R1Zm', 'Software Engineer', 'ROLE_USER', 2), -- password=user3
+('User 4', 'user4', '$2a$10$b0zVYQTpxXF37qBsg6d2euNXreYPVz9rljlM/wmfMcFhhjFgBlILa', 'Software Developer', 'ROLE_USER', 3), -- password=user4
+('User 5', 'user5', '$2a$10$r1xeXqjkXAz4/lOE/f/.zeoq/hsx1yccI1LEoBdbKmX88nBTi5sVW', 'Quality Assurance Engineer', 'ROLE_USER', 1), -- password=user5
+('User 6', 'user6', '$2a$10$hSS8Goi57C0jz7BnPGZXx..PzxYK2Gs3HezfyQLA4u0OoXCGVGHZa', 'UI/UX Designer', 'ROLE_USER', 4), -- password=user6
+('User 7', 'user7', '$2a$10$emdCJMrnwZQ91zX3ugBVKup3KmHMuJ4l.Tgvc8eVtpx.GJiagTiNC', 'DevOps Engineer', 'ROLE_USER', 8), -- password=user7
+('User 8', 'user8', '$2a$10$AwpiwXa1jB9Ic8bE/5GZhOqoGKAp4v8Rm1wSeX4I8AhNAqQmppx6y', 'System Analyst', 'ROLE_USER', 5), -- password=user8
+('User 9', 'user9', '$2a$10$NtwN.7JSF5tkjmUn8C9kseUfarJpY9qBfqMl.p1R7iexTSJVev1F6', 'Database Administrator', 'ROLE_USER', 18), -- password=user9
+( 'User 10', 'user10', '$2a$10$p4q/UfzoD3TJ19XDIDNjKeRsBBjSta.VuzHpvsUe1GCjp9Un3g5wK', 'Network Engineer', 'ROLE_USER', 23), -- password=user10
+( 'User 11', 'user11', '$2a$10$QZqE/yk6LP7GXyqnxY10NeSlQ0JB4ThcxE6B0D2z7UWcmrOVb6yS.', 'Technical Support Specialist', 'ROLE_USER', 9), -- password=user11
+( 'User 12', 'user12', '$2a$10$gSDXk/WdZjlRhB19C7ZFpukHKcMwXkCmmGkkFxlQJ7m6VooaF6.im', 'Scrum Master', 'ROLE_USER', 12), -- password=user12
+( 'User 13', 'user13', '$2a$10$3GxnIc2h2O5FbALOfv/5ouLxrErgNqSN/g0sGrZnZP6CMg7lchFmG', 'Product Owner', 'ROLE_USER', 7), -- password=user13
+( 'User 14', 'user14', '$2a$10$fFq4kTQUf6UETnziROD3QOx.PtcyvLP2XGb/6sOL.i0VIQ/HktapS', 'Business Analyst', 'ROLE_USER', 14), -- password=user14
+( 'User 15', 'user15', '$2a$10$ZIGzhHGLL1ZmOKxGxAVkGe/2mn6dWfXGChXKex1OzxvvMS5zB4R6S', 'Data Scientist', 'ROLE_USER', 21), -- password=user15
+( 'User 16', 'user16', '$2a$10$jXOkE2UcAAK6cX571s2d7O4zoyZw0PzJQQ.QEiSZAYwMY0GWTClYi', 'Cybersecurity Analyst', 'ROLE_USER', 22), -- password=user16
+( 'User 17', 'user17', '$2a$10$Cr04fy1AvfSulXFO7pQo7Ouy1l76U3zM4zgsyu0e.3Z5B.zII1N1.', 'Project Manager', 'ROLE_MANAGER', 7), -- password=user17
+( 'User 18', 'user18', '$2a$10$eyxyeXvqEKDPiQoghuR4iOWJdUEy5K43AJa4Eu./qAwqTAxRwm02m', 'Software Development Manager', 'ROLE_MANAGER', 2), -- password=user18
+( 'User 19', 'user19', '$2a$10$J/Dx6mIHBgFiDm7cSU3M/OyF23uGIgVWBkJT0rwYbQmOi6dJ4OVuu', 'Quality Assurance Manager', 'ROLE_MANAGER', 1), -- password=user19
+( 'User 20', 'user20', '$2a$10$6W5l7k4H7mhpoTnvNm9hH.vc4cHOfBKVXXy7jSE1A83l/jmULusvu', 'UI/UX Design Lead', 'ROLE_MANAGER', 4), -- password=user20
+( 'User 21', 'user21', '$2a$10$6MPAVJgEnl2Kf7ox4GV5CuwtZ1FRcF9Kac.mn.EOfQwWD8m7lRzZm', 'Data Scientist', 'ROLE_USER', 4); -- password=user21
+
+
+
+INSERT INTO "Bug" ("Program_ID", "Report_Type", "Severity", "Problem_Summary", "Can_Reproduce", "Problem_Description", "Suggested_Fix", "Reported_By", "Date_Reported", "Functional_Area_ID", "Assigned_To_Employee_ID", "Assigned_To_Team_ID", "Comments", "Status", "Priority", "Resolution", "Resolution_Version", "Resolved_By", "Resolved_Date", "Resolution_Tested_By", "Resolution_Tested_Date")
+VALUES
+(8, 'Coding Error', 'Fatal',  'The flexbox layout in Safari browser (version 14.0.1) is rendering incorrectly, resulting in elements within nested flex containers overlapping and failing to align according to specified flexbox properties. This behavior deviates from expected rendering and consistency with other modern browsers like Chrome and Firefox. The issue affects the visual presentation and layout of webpages, particularly those reliant on flexbox for responsive design. Despite the CSS code being correctly specified, Safaris rendering engine produces an inconsistent layout. A workaround involving alternative layout techniques or custom JavaScript solutions may be necessary until a resolution is implemented.',  true,  'When using a flexbox layout with nested flex containers, Safari (version 14.0.1) renders the layout incorrectly, causing elements to overlap and not align properly according to the specified flexbox properties.',  'To address the rendering inconsistency in Safaris flexbox layout, developers can consider implementing a combination of vendor prefixes and specific CSS adjustments targeted at Safari. By adding `-webkit-` prefixes to relevant flexbox properties (e.g., `display: -webkit-flex;`, `align-items: -webkit-align-items;`, etc.), along with fine-tuning the flexbox properties for Safaris rendering engine, such as adjusting `flex-basis` or using `min-width` on flex items, we can aim to achieve a more consistent layout across browsers. Additionally, thorough testing across Safari versions and platforms is recommended to ensure the effectiveness of the fix.',  5,  '2023-02-20',  2, 18,  11,  'The reported issue regarding Safaris incorrect rendering of flexbox layouts is significant as it impacts the visual consistency and layout precision of webpages across different browsers. Flexbox is a fundamental layout tool for modern web design, and Safaris failure to render it correctly poses a considerable challenge for developers aiming for cross-browser compatibility. The bug report provides clear steps to reproduce the issue and highlights the discrepancy between Safaris behavior and that of other major browsers. It also offers a workaround suggestion, acknowledging the need for alternative solutions until a permanent fix is implemented. However, its essential to note that relying on vendor prefixes and specific adjustments for Safari may introduce maintenance overhead and complicate the codebase. Therefore, a long-term solution from the Safari development team to align its flexbox rendering with web standards and other browsers would be preferable. This bug underscores the importance of comprehensive browser testing and the ongoing evolution of web standards to ensure a consistent user experience across various platforms and devices.',  'Open',  '1. Fix immediately',  'Pending',  '1.1',  NULL,  NULL,   NULL,   NULL ),
+(12, 'Design Issue', 'Serious', 'The login button on the mobile app login screen appears misaligned and unresponsive, making it difficult for users to sign in. This issue impacts the usability and accessibility of the login feature, leading to frustration and potential abandonment of the app. Upon launching the app, users encounter difficulty in locating and interacting with the login button, resulting in a poor user experience and hindering the app''s functionality.', false, 'The login button on the mobile app login screen is misaligned and unresponsive, causing usability issues for users attempting to sign in.', 'To resolve the login button misalignment and unresponsiveness on the mobile app login screen, developers should inspect the button''s styling and event handling code. Potential causes may include incorrect CSS positioning or conflicting styles affecting the button''s appearance and behavior. Adjustments should be made to ensure proper alignment and responsiveness, allowing users to easily locate and interact with the login button on various devices and screen sizes.', 3, '2023-03-10', 5, 3,  20, NULL, 'Open', '2. Fix as soon as possible', 'Pending', '1.0', NULL, NULL, NULL, NULL),
+(20, 'Documentation', 'Minor', 'The user guide lacks detailed instructions on configuring email notifications in the application settings. Users are unable to set up email alerts for important events or updates within the application, resulting in a lack of timely notifications and potentially missed information. Enhancing the documentation with clear step-by-step guidelines for email notification setup would improve user understanding and satisfaction with the application.', false, 'The user guide does not provide sufficient information on how to configure email notifications in the application settings.', 'To improve the user guide and address the lack of information on email notification setup, technical writers should collaborate with the development team to document the necessary steps and configurations for enabling email alerts within the application settings. The guide should include screenshots and examples to guide users through the setup process effectively.', 6, '2023-03-15', 9, 15,  4, NULL, 'Open', '3. Fix before next milestone', 'Pending', '1.0', NULL, NULL, NULL, NULL),
+(5, 'Hardware', 'Fatal', 'The application crashes on startup when running on devices with Android version 11. This critical issue prevents users from accessing the app''s features and functionality, resulting in a poor user experience and potential loss of customers. The frequent crashes on Android 11 devices indicate a compatibility issue that needs immediate attention to ensure the app''s reliability and performance across different platforms.', true, 'The application crashes immediately upon launching on devices running Android version 11.', 'To address the application crashes on Android 11 devices, developers should investigate potential compatibility issues between the app''s codebase and the Android 11 platform. This may involve debugging the startup sequence, identifying problematic code paths, and making necessary adjustments to ensure compatibility and stability. Additionally, thorough testing on Android 11 devices is essential to verify the effectiveness of the fix and prevent future occurrences of crashes.', 8, '2023-03-20', 14, 16,  5, NULL, 'Open', '1. Fix immediately', 'Pending', '1.0', NULL, NULL, NULL, NULL),
+(15, 'Query', 'Minor', 'The search functionality in the application fails to return accurate results when querying for specific keywords or phrases. Users encounter difficulty finding relevant information within the app, impacting their productivity and satisfaction. Improving the search algorithm to deliver more precise and relevant results would enhance the overall user experience and facilitate efficient information retrieval.', true, 'The search functionality in the application does not return accurate results for queried keywords or phrases.', 'To enhance the search functionality and improve result accuracy, developers should review and optimize the search algorithm used in the application. This may involve refining keyword matching criteria, incorporating synonyms and stemming techniques, and prioritizing relevant content in the search results. Thorough testing should be conducted to validate the effectiveness of the algorithm improvements and ensure an enhanced user experience.', 12, '2023-03-25', 11, 19,  21, NULL, 'Open', '5. Fix if possible', 'Pending', '1.0', NULL, NULL, NULL, NULL),
+(8, 'Suggestion', 'Minor', 'The application could benefit from adding keyboard shortcuts for common tasks to improve user productivity and accessibility. Keyboard shortcuts provide an efficient alternative to mouse-based interactions, especially for power users or users with disabilities who rely on keyboard navigation. Implementing a set of customizable keyboard shortcuts would enhance the overall user experience and cater to a wider range of user preferences and needs.', false, 'The application lacks keyboard shortcuts for common tasks, hindering user productivity and accessibility.', 'To enhance user productivity and accessibility, developers should implement a system for defining and managing keyboard shortcuts within the application settings. Users should be able to customize shortcuts for frequently used actions, such as navigation, editing, and formatting. Additionally, keyboard shortcuts should be documented in the user guide to inform users of available options and improve adoption.', 10, '2023-04-05', 16, 7,  11, 'Adding keyboard shortcuts can significantly improve user experience, especially for users who prefer keyboard navigation over mouse interactions. Customizable shortcuts allow users to tailor the application to their workflow and increase efficiency.', 'In Progress', '3. Fix before next milestone', 'Pending', '1.0', 16, '2023-04-10', NULL, NULL),
+(12, 'Coding Error', 'Fatal', 'The application crashes intermittently when processing large datasets, leading to data loss and potential system instability. This critical issue affects the reliability and performance of the application, especially in scenarios involving extensive data processing or analysis. Resolving the underlying cause of the crashes is essential to ensure data integrity and prevent disruptions to users'' workflows.', true, 'The application crashes unpredictably during data processing tasks, resulting in data loss and system instability.', 'To address the intermittent crashes, developers should conduct thorough debugging and profiling to identify memory leaks, resource exhaustion, or other factors contributing to the instability. Strategies such as optimizing memory usage, implementing error handling mechanisms, and enhancing data processing algorithms may be necessary to stabilize the application and prevent future crashes.', 13, '2023-04-08', 5, 4,  5, 'Fixing the intermittent crashes is critical for maintaining the reliability and performance of the application, especially in data-intensive scenarios. Thorough testing is required to validate the effectiveness of the proposed solutions and ensure a stable release.', 'Resolved', '1. Fix immediately', 'Fixed', '1.1', 5, '2023-04-12', 7, '2023-04-15'),
+(20, 'Design Issue', 'Serious', 'The navigation menu layout on the web application is inconsistent across different pages, causing confusion and usability issues for users. Inconsistencies in menu placement, styling, or organization disrupt the user''s mental model of the application structure and hinder efficient navigation. Standardizing the navigation menu layout and hierarchy would improve user orientation and streamline the browsing experience.', false, 'The navigation menu layout varies between pages, leading to confusion and difficulty navigating the application.', 'To address the inconsistency in the navigation menu layout, developers should review the design specifications and implementation of the menu component across all pages. Consistent styling, placement, and hierarchy should be enforced to ensure a cohesive user experience and facilitate intuitive navigation. User feedback and usability testing can help identify areas for improvement and validate the effectiveness of the redesigned menu layout.', 18, '2023-04-12', 10, 15,  4, 'Consistent navigation menus contribute to a cohesive user experience and improve usability by providing clear guidance on application structure and functionality.', 'In Progress', '2. Fix as soon as possible', 'Pending', '1.0', 10, '2023-04-18', NULL, NULL),
+(5, 'Hardware', 'Serious', 'The application freezes intermittently when accessing the camera functionality on Android devices, resulting in a poor user experience and potential loss of captured content. The freezes occur randomly during camera usage, making it difficult for users to capture photos or record videos without interruptions. Addressing the underlying cause of the freezes is crucial to ensure the reliability and usability of the camera feature.', true, 'The application freezes when using the camera on Android devices, disrupting user interaction and potentially causing data loss.', 'To resolve the intermittent freezes, developers should investigate potential hardware compatibility issues, camera driver conflicts, or resource contention affecting the camera functionality. Testing on a variety of Android devices and operating system versions is necessary to identify and reproduce the issue consistently. Implementing optimized camera handling code and error recovery mechanisms can help mitigate the risk of freezes and improve the overall stability of the application.', 14, '2023-04-15', 14, 16,  5, 'Addressing the camera freezes is essential for ensuring a seamless user experience, especially for applications that rely heavily on camera functionality. Thorough testing across different device configurations is necessary to validate the effectiveness of the proposed solutions.', 'Resolved', '2. Fix as soon as possible', 'Fixed', '1.0', 14, '2023-04-20', 16, '2023-04-22'),
+( 15, 'Query', 'Minor', 'The search autocomplete feature in the application''s search bar suggests irrelevant or outdated search terms, leading to user frustration and inefficiency. Improving the relevance and accuracy of autocomplete suggestions would enhance the search experience and help users find relevant information more quickly. A robust autocomplete algorithm based on user behavior and context can deliver personalized and contextually relevant suggestions.', true, 'The search autocomplete feature suggests irrelevant or outdated search terms, hindering user productivity and search efficiency.', 'To enhance the relevance and accuracy of autocomplete suggestions, developers should implement a dynamic autocomplete algorithm that takes into account user search history, query context, and popular search terms. Machine learning techniques such as collaborative filtering and natural language processing can be applied to generate personalized suggestions tailored to each user''s preferences and browsing patterns. Continuous monitoring and refinement of the autocomplete algorithm based on user feedback and usage analytics are essential to ensure optimal performance and user satisfaction.', 11, '2023-04-20', 11, 19,  21, 'Improving the search autocomplete feature can significantly improve user productivity and satisfaction by providing relevant and timely suggestions. Personalized autocomplete suggestions enhance the overall search experience and facilitate efficient information retrieval.', 'In Progress', '5. Fix if possible', 'Pending', '1.0', 11, '2023-04-25', NULL, NULL),
+( 3, 'Documentation', 'Minor', 'The user manual lacks instructions on how to perform a software update, leaving users without guidance on the update process. Providing clear and concise update instructions is essential to ensure users can keep the software up-to-date and benefit from the latest features and enhancements.', false, 'The user manual does not contain information on how to perform a software update.', 'To address the missing instructions, technical writers should update the user manual with detailed steps for initiating and completing a software update. Instructions should include prerequisites, such as ensuring an active internet connection and backing up data, as well as troubleshooting tips for common update issues. Visual aids such as screenshots or illustrations can further clarify the update process for users.', 19, '2023-05-02', 3, 18,  19, 'Providing comprehensive update instructions in the user manual is essential for ensuring a smooth update process and minimizing user frustration.', 'Open', '5. Fix if possible', 'Pending', '1.0', NULL, NULL, NULL, NULL),
+( 9, 'Query', 'Minor', 'The search functionality in the application returns inaccurate results when searching for multi-word phrases, leading to frustration and inefficiency for users. Improving the search algorithm to handle multi-word queries more effectively would enhance the accuracy and relevance of search results.', true, 'The search results are not accurate when searching for multi-word phrases.', 'To improve the accuracy of search results, developers should enhance the search algorithm to better handle multi-word queries. Techniques such as tokenization, stemming, and phrase matching can be employed to identify relevant documents and prioritize results based on relevance. Additionally, user feedback and query analytics can inform further refinements to the search algorithm.', 7, '2023-05-05', 11, 9,  11, 'Enhancing the search functionality to accurately handle multi-word queries is essential for improving user satisfaction and productivity.', 'In Progress', '4. Fix before release', 'Pending', '1.0', NULL, NULL, NULL, NULL),
+( 6, 'Suggestion', 'Minor', 'The application could benefit from implementing dark mode support to provide users with a more comfortable viewing experience in low-light environments. Dark mode reduces eye strain and conserves battery life on devices with OLED displays, enhancing usability and accessibility for users.', false, 'The application lacks support for dark mode, limiting user options for customization.', 'To implement dark mode support, developers should introduce a toggle switch or settings option for users to enable dark mode. This option should override the default color scheme with darker colors for text, backgrounds, and UI elements, ensuring readability and visual comfort in low-light conditions. Compatibility testing across different devices and platforms is necessary to ensure consistent performance and appearance in dark mode.', 15, '2023-05-08', 1, 21,  3, 'Introducing dark mode support can enhance user comfort and accessibility, especially for users who prefer darker interfaces or frequently use the application in low-light environments.', 'Resolved', '2. Fix as soon as possible', 'Fixed', '1.0', 1, '2023-05-12', 16, '2023-05-15'),
+( 16, 'Hardware', 'Serious', 'The application crashes unexpectedly when attempting to access the microphone on iOS devices, preventing users from using voice input features and potentially causing data loss. Addressing the underlying issue causing the crashes is critical to ensure the reliability and functionality of voice input functionality.', true, 'The application crashes when attempting to access the microphone on iOS devices.', 'To address the crashes, developers should investigate potential conflicts between the application and iOS microphone permissions or API usage. Debugging tools such as Xcodes Instruments can help identify memory leaks or resource issues contributing to the crashes. Implementing proper error handling and permission checks can prevent the crashes and provide a better user experience.', 10, '2023-05-10', 14, 14,  6, 'Fixing the crashes when accessing the microphone is crucial for maintaining the functionality and reliability of voice input features.', 'In Progress', '1. Fix immediately', 'Pending', '1.0', NULL, NULL, NULL, NULL),
+( 7, 'Design Issue', 'Serious', 'The applications UI layout is inconsistent across different screen sizes and orientations, resulting in visual glitches and usability issues on certain devices. Standardizing the UI layout and ensuring responsiveness across all devices and orientations is essential for delivering a consistent and user-friendly experience.', false, 'The UI layout exhibits inconsistencies and glitches on certain devices and screen orientations.', 'To address the UI layout issues, designers and developers should review the application''s layout constraints and responsive design implementation. Using adaptive layout techniques such as auto layout in iOS or ConstraintLayout in Android can help ensure consistent UI rendering across various screen sizes and orientations. Testing on real devices and emulators is necessary to identify and resolve layout issues specific to different platforms and form factors.', 13, '2023-05-12', 8, 12,  7, 'Standardizing the UI layout and ensuring responsiveness is essential for delivering a consistent and user-friendly experience across all devices and screen sizes.', 'Resolved', '3. Fix before next milestone', 'Fixed', '1.0', 8, '2023-05-16', 11, '2023-05-20'),
+( 11, 'Coding Error', 'Fatal', 'The application crashes upon startup on devices running Android 12, preventing users from accessing the app and causing frustration. Resolving the compatibility issue with Android 12 is critical to ensure continued support for users on the latest operating system version.', true, 'The application crashes on startup when running on Android 12.', 'To address the compatibility issue, developers should update the application to comply with Android 12''s behavior changes and API requirements. This may involve updating deprecated APIs, adjusting permissions, or handling changes to background execution limits. Testing on Android 12 devices and emulators is necessary to verify compatibility and identify any remaining issues.', 18, '2023-05-15', 12, 8,  4, 'Resolving the compatibility issue with Android 12 is critical for maintaining support for users on the latest operating system version.', 'In Progress', '1. Fix immediately', 'Pending', '1.0', NULL, NULL, NULL, NULL),
+( 18, 'Suggestion', 'Minor', 'The application could benefit from implementing a dark theme to provide users with a visually appealing alternative to the default light theme. Dark themes reduce eye strain and battery consumption on devices with OLED displays, enhancing user comfort and device longevity.', false, 'The application lacks a dark theme option for users.', 'To implement a dark theme, designers should create a new color scheme with darker tones for text, backgrounds, and UI elements. Developers should then integrate the dark theme option into the application settings, allowing users to switch between light and dark themes based on their preference. Testing on different devices and environments is necessary to ensure the dark theme is implemented effectively and maintains visual consistency.', 16, '2023-05-18', 4, 10,  5, 'Implementing a dark theme option can improve user comfort and device battery life, especially for users who prefer darker interfaces or frequently use the application in low-light conditions.', 'Closed', '6. Optional', 'Fixed', '1.0', 4, '2023-05-22', 16, '2023-05-25'),
+( 1, 'Hardware', 'Serious', 'The application crashes intermittently when accessing the camera on devices running iOS 15, disrupting user experience and potentially causing data loss. Resolving the crashes is critical to ensure the reliability and functionality of the camera feature.', true, 'The application crashes when accessing the camera on iOS 15 devices.', 'To address the crashes, developers should investigate potential compatibility issues with iOS 15''s camera APIs or permissions. Debugging tools such as Xcode''s Instruments can help identify memory leaks or resource conflicts contributing to the crashes. Implementing proper error handling and testing on iOS 15 devices are necessary to validate the effectiveness of the fix.', 2, '2023-05-20', 12, 17,  11, 'Resolving the crashes when accessing the camera on iOS 15 devices is crucial for maintaining a reliable and functional camera feature.', 'In Progress', '1. Fix immediately', 'Pending', '1.0', NULL, NULL, NULL, NULL),
+( 14, 'Coding Error', 'Fatal', 'The application crashes randomly during video playback on Android devices, leading to user frustration and disruption of media consumption. Identifying and fixing the root cause of the crashes is essential to ensure a stable and reliable video playback experience for users.', true, 'The application crashes during video playback on Android devices.', 'To resolve the crashes, developers should conduct thorough testing and profiling to identify performance bottlenecks or memory issues affecting video playback. Implementing optimizations such as buffer management, error handling, and resource cleanup can help mitigate the risk of crashes and improve overall stability. Testing on a variety of Android devices and video formats is necessary to ensure compatibility and reliability across different scenarios.', 20, '2023-05-22', 15, 5,  13, 'Fixing the crashes during video playback is crucial for providing a seamless media experience and maintaining user satisfaction.', 'Resolved', '2. Fix as soon as possible', 'Fixed', '1.0', 15, '2023-05-26', 18, '2023-05-30'),
+( 4, 'Design Issue', 'Serious', 'The application''s UI elements overlap or become misaligned on devices with smaller screens, resulting in visual clutter and usability issues. Optimizing the UI layout for smaller screens would improve readability and usability for users on compact devices.', false, 'UI elements overlap or misalign on smaller screens, causing visual clutter.', 'To address the UI issues, designers should review the application''s layout constraints and responsiveness settings, ensuring that UI elements adapt gracefully to smaller screen sizes. Developers should implement adaptive layout techniques such as constraint priorities and content compression resistance to prevent overlap and maintain visual clarity. Testing on devices with varying screen sizes and resolutions is necessary to validate the effectiveness of the UI optimizations.', 8, '2023-05-25', 16, 1,  15, 'Optimizing the UI layout for smaller screens is essential for improving readability and usability on compact devices.', 'Closed', '3. Fix before next milestone', 'Fixed', '1.0', 16, '2023-05-30', 7, '2023-06-02'),
+( 5, 'Design Issue', 'Minor', 'The application''s font size is inconsistent across different screens, leading to readability issues and inconsistency in the user interface. Standardizing the font size and ensuring consistency across all screens would improve user experience and visual coherence.', false, 'Font size varies inconsistently across different screens.', 'To address the font size inconsistency, designers should establish a standard font size guideline for various UI elements such as headings, body text, and buttons. Developers should then implement these guidelines consistently across all screens using appropriate font size attributes or styles. Testing on devices with different screen sizes and resolutions is essential to ensure readability and visual coherence across the application.', 12, '2023-06-05', 7, 6,  12, 'Standardizing font size improves readability and consistency across the application interface.', 'Open', '5. Fix if possible', 'Pending', '1.0', NULL, NULL, NULL, NULL),
+( 12, 'Coding Error', 'Fatal', 'The application crashes when accessing a specific feature in offline mode, rendering the feature unusable for users without an internet connection. Resolving the crash issue is critical to ensure seamless functionality in offline mode and maintain a positive user experience.', true, 'The application crashes when accessing a specific feature in offline mode.', 'To resolve the crash issue, developers should identify the root cause of the crash, which may involve incorrect handling of network requests or data caching in offline mode. Implementing proper error handling and testing in offline environments can help prevent crashes and ensure uninterrupted functionality. Additionally, providing informative error messages to users can help mitigate frustration when encountering network-related issues.', 14, '2023-06-08', 3, 4,  13, 'Resolving crash issue in offline mode is essential for maintaining uninterrupted functionality and user experience.', 'In Progress', '1. Fix immediately', 'Pending', '1.0', NULL, NULL, NULL, NULL),
+( 8, 'Documentation', 'Minor', 'The user manual lacks instructions on how to customize application settings, leaving users unaware of available customization options. Providing comprehensive documentation on customization features would enhance user satisfaction and usability.', false, 'The user manual does not contain information on customizing application settings.', 'To address the documentation gap, technical writers should update the user manual with detailed instructions on how to access and customize application settings. Instructions should cover various customization options such as theme selection, notification preferences, and user profile settings. Including screenshots or walkthroughs can further assist users in understanding and utilizing customization features effectively.', 6, '2023-06-10', 9, 14,  19, 'Comprehensive documentation on customization options improves user satisfaction and usability.', 'Closed', '6. Optional', 'Fixed', '1.0', 9, '2023-06-15', 15, '2023-06-18'),
+( 15, 'Suggestion', 'Minor', 'The application could benefit from implementing push notifications to keep users informed of important updates and events. Introducing push notifications enhances user engagement and retention by providing timely and relevant information.', false, 'The application does not support push notifications.', 'To implement push notifications, developers should integrate a push notification service such as Firebase Cloud Messaging (FCM) or Apple Push Notification Service (APNs) into the application backend. This service enables the server to send notifications to users devices, keeping them informed of relevant updates or events. Additionally, developers should provide an option in the application settings to enable or disable push notifications based on user preferences.', 3, '2023-06-12', 17, 19,  10, 'Implementing push notifications improves user engagement and retention by delivering timely updates and information.', 'Resolved', '2. Fix as soon as possible', 'Fixed', '1.0', 17, '2023-06-18', 20, '2023-06-22'),
+( 2, 'Hardware', 'Serious', 'The application crashes when attempting to print documents on certain printer models, disrupting productivity and causing frustration for users. Fixing the crash issue is essential to ensure seamless printing functionality and maintain user satisfaction.', true, 'The application crashes when printing documents on specific printer models.', 'To address the crash issue, developers should investigate compatibility issues between the application and affected printer models. This may involve testing different printer drivers, adjusting print settings, or updating the printing module to resolve compatibility conflicts. Thorough testing on various printer models and configurations is necessary to ensure reliable printing functionality across different scenarios.', 20, '2023-06-15', 11, 11,  14, 'Fixing the crash when printing documents ensures seamless printing functionality and user satisfaction.', 'In Progress', '1. Fix immediately', 'Pending', '1.0', NULL, NULL, NULL, NULL),
+( 10, 'Query', 'Minor', 'The search functionality in the application returns irrelevant results when querying specific keywords, hindering users ability to find relevant information efficiently. Enhancing the search algorithm to improve result accuracy would enhance user productivity and satisfaction.', true, 'Search results are not relevant when querying specific keywords.', 'To improve search result accuracy, developers should enhance the search algorithm to better interpret user queries and match them with relevant content. Techniques such as natural language processing (NLP), semantic analysis, and relevance ranking can be employed to improve the precision and relevance of search results. Additionally, collecting and analyzing user feedback on search queries can inform further refinements to the search algorithm.', 17, '2023-06-18', 5, 2,  15, 'Enhancing search result accuracy improves user productivity and satisfaction by delivering relevant information efficiently.', 'Resolved', '3. Fix before next milestone', 'Fixed', '1.0', 5, '2023-06-22', 18, '2023-06-25'),
+( 13, 'Suggestion', 'Minor', 'The application could benefit from implementing biometric authentication options such as fingerprint or facial recognition to enhance security and convenience for users. Introducing biometric authentication provides users with an alternative authentication method that is both secure and user-friendly.', false, 'The application does not support biometric authentication options.', 'To implement biometric authentication, developers should integrate biometric authentication APIs provided by the device platform (e.g., Touch ID for iOS, Face ID for iOS, or Fingerprint API for Android). This integration allows users to authenticate using their fingerprint or facial recognition data stored securely on the device. Additionally, developers should provide clear instructions and settings to enable or disable biometric authentication based on user preferences.', 9, '2023-06-20', 18, 17,  11, 'Implementing biometric authentication enhances security and convenience for users, providing an alternative authentication method.', 'Closed', '2. Fix as soon as possible', 'Fixed', '1.0', 18, '2023-06-25', 16, '2023-06-28'),
+( 6, 'Hardware', 'Serious', 'The application freezes intermittently when accessing certain hardware peripherals such as external USB devices, hindering user workflow and productivity. Resolving the freeze issue is essential to ensure smooth and uninterrupted operation of the application.', true, 'The application freezes when accessing external USB devices.', 'To address the freeze issue, developers should investigate potential compatibility issues between the application and external USB devices. This may involve updating device drivers, optimizing data transfer protocols, or implementing error handling mechanisms to recover from freezes gracefully. Thorough testing on different hardware configurations and scenarios is necessary to validate the effectiveness of the fix.', 8, '2023-06-22', 20, 8,  16, 'Resolving freeze issue when accessing external USB devices ensures smooth operation and user productivity.', 'Open', '1. Fix immediately', 'Pending', '1.0', NULL, NULL, NULL, NULL),
+( 3, 'Query', 'Minor', 'The search functionality in the application returns slow results when querying large datasets, causing delays and frustration for users. Optimizing the search algorithm to improve performance would enhance user experience and efficiency.', true, 'Search results are slow when querying large datasets.', 'To optimize search performance, developers should review and optimize the search algorithm to minimize computational complexity and improve query execution speed. Techniques such as indexing, caching, and parallel processing can be employed to accelerate search operations and reduce response times. Thorough performance testing on representative datasets is necessary to validate the improvements and ensure responsiveness.', 15, '2023-06-25', 6, 7,  13, 'Optimizing search performance improves user experience and efficiency by reducing response times.', 'Resolved', '2. Fix as soon as possible', 'Fixed', '1.0', 6, '2023-06-30', 19, '2023-07-03'),
+( 9, 'Suggestion', 'Minor', 'The application could benefit from implementing dark mode functionality to reduce eye strain and improve readability in low-light environments. Introducing dark mode enhances user comfort and accessibility for users who prefer darker interfaces.', false, 'The application lacks dark mode functionality.', 'To implement dark mode, designers should create a dark color scheme for UI elements such as backgrounds, text, and icons. Developers should then integrate the dark mode option into the application settings, allowing users to switch between light and dark modes based on their preference. Thorough testing on different devices and environments is necessary to ensure the effectiveness and visual consistency of dark mode implementation.', 16, '2023-06-28', 12, 10,  17, 'Implementing dark mode enhances user comfort and accessibility in low-light environments.', 'Closed', '3. Fix before next milestone', 'Fixed', '1.0', 12, '2023-07-03', 14, '2023-07-06'),
+( 7, 'Documentation', 'Minor', 'The application''s user manual lacks instructions on how to troubleshoot common error messages, leaving users without guidance when encountering issues. Providing troubleshooting instructions would empower users to resolve problems independently and reduce reliance on support resources.', false, 'The user manual does not contain troubleshooting instructions for common error messages.', 'To address the documentation gap, technical writers should update the user manual with troubleshooting instructions for common error messages encountered by users. Instructions should include steps to identify the cause of the error, potential solutions or workarounds, and resources for further assistance if needed. Providing clear and concise troubleshooting guidance can empower users to resolve issues efficiently and improve overall satisfaction with the application.', 10, '2023-07-01', 13, 15,  20, 'Providing troubleshooting instructions in the user manual empowers users to resolve issues independently.', 'Open', '5. Fix if possible', 'Pending', '1.0', NULL, NULL, NULL, NULL),
+( 1, 'Query', 'Minor', 'The application''s database queries exhibit slow performance when handling large datasets, leading to delays in data retrieval and processing. Optimizing database queries would improve overall application performance and responsiveness.', true, 'Database queries are slow when handling large datasets.', 'To optimize database query performance, developers should review and optimize the database schema, indexes, and query execution plans. Techniques such as indexing, query caching, and query optimization hints can be employed to improve query execution speed and reduce latency. Thorough performance testing with representative datasets is necessary to validate the improvements and ensure responsiveness under load.', 4, '2023-07-05', 11, 9,  14, 'Optimizing database query performance improves overall application performance and responsiveness.', 'Resolved', '1. Fix immediately', 'Fixed', '1.0', 11, '2023-07-10', 16, '2023-07-13'),
+( 11, 'Hardware', 'Serious', 'The application crashes when accessing Bluetooth devices on certain mobile devices, disrupting connectivity and functionality. Resolving the crash issue is critical to ensure seamless Bluetooth functionality and maintain user satisfaction.', true, 'The application crashes when accessing Bluetooth devices.', 'To address the crash issue, developers should investigate compatibility issues between the application and Bluetooth hardware on affected mobile devices. This may involve updating Bluetooth drivers, optimizing Bluetooth communication protocols, or implementing error handling mechanisms to recover from crashes gracefully. Thorough testing on different mobile devices and Bluetooth configurations is necessary to validate the effectiveness of the fix.', 18, '2023-07-08', 19, 16,  19, 'Resolving crash issue when accessing Bluetooth devices ensures seamless connectivity and functionality.', 'In Progress', '2. Fix as soon as possible', 'Pending', '1.0', NULL, NULL, NULL, NULL),
+( 14, 'Documentation', 'Minor', 'The application''s API documentation lacks examples and usage scenarios, making it challenging for developers to integrate and utilize the API effectively. Enhancing the API documentation with comprehensive examples and use cases would facilitate developer understanding and adoption.', false, 'The API documentation lacks examples and usage scenarios.', 'To improve the API documentation, technical writers should supplement the existing documentation with comprehensive examples demonstrating API usage in various scenarios. Examples should cover common use cases, parameter configurations, and expected responses to guide developers in integrating and utilizing the API effectively. Additionally, providing code snippets and sample requests can further illustrate API usage and facilitate developer understanding.', 18, '2023-07-12', 14, 12,  17, 'Enhancing API documentation with examples and use cases facilitates developer understanding and adoption.', 'Closed', '3. Fix before next milestone', 'Fixed', '1.0', 14, '2023-07-17', 15, '2023-07-20'),
+( 4, 'Coding Error', 'Serious', 'The application crashes intermittently when processing large datasets, leading to data loss and disruption of user workflow. Fixing the crash issue is essential to ensure data integrity and prevent disruptions to users'' workflows.', true, 'The application crashes when processing large datasets.', 'To address the crash issue, developers should analyze the application''s memory management and data processing algorithms to identify potential memory leaks or resource exhaustion issues. Implementing efficient memory management practices and optimizing data processing algorithms can help mitigate crashes and improve application stability when handling large datasets. Thorough testing with representative datasets and load scenarios is necessary to validate the effectiveness of the fix.', 19, '2023-07-15', 16, 17,  16, 'Resolving crash issue when processing large datasets ensures data integrity and prevents disruptions to users'' workflows.', 'Open', '1. Fix immediately', 'Pending', '1.0', NULL, NULL, NULL, NULL),
+( 3, 'Coding Error', 'Fatal', 'The application crashes on startup with a segmentation fault error, preventing users from accessing the application. Resolving the crash issue is critical to restore functionality and ensure a seamless user experience.', true, 'The application crashes on startup with a segmentation fault error.', 'To address the crash issue, developers should investigate the application''s startup sequence and memory allocation to identify the cause of the segmentation fault. This may involve debugging the application code, checking for null pointer dereferences or memory leaks, and ensuring proper error handling during startup. Thorough testing on different platforms and environments is necessary to validate the fix and prevent recurrence of the crash.', 13, '2023-07-20', 4, 5,  12, 'Resolving crash on startup restores application functionality and user experience.', 'In Progress', '1. Fix immediately', 'Pending', '1.0', NULL, NULL, NULL, NULL),
+( 7, 'Design Issue', 'Minor', 'The application''s user interface lacks consistency in button styling across different screens, leading to a disjointed user experience. Standardizing button styles improves visual coherence and usability for users interacting with the application.', false, 'Button styles are inconsistent across different screens.', 'To address the design issue, designers and developers should review the application''s button styling guidelines and ensure consistency in button design across all screens. This may involve establishing a standard button size, shape, color, and typography to be used consistently throughout the application. Additionally, designers should consider accessibility guidelines when defining button styles to ensure they are perceivable, operable, and understandable for all users.', 8, '2023-07-25', 8, 9,  18, 'Standardizing button styles improves visual coherence and usability in the application interface.', 'Open', '5. Fix if possible', 'Pending', '1.0', NULL, NULL, NULL, NULL),
+( 11, 'Suggestion', 'Minor', 'The application could benefit from implementing keyboard shortcuts for common actions and navigation, enhancing productivity and user experience for users who prefer keyboard input. Introducing keyboard shortcuts provides an alternative input method for users to perform actions quickly and efficiently.', false, 'The application does not support keyboard shortcuts for common actions.', 'To implement keyboard shortcuts, developers should define a set of keyboard shortcuts for frequently used actions and navigation within the application. These shortcuts should be intuitive and consistent with standard keyboard conventions to ensure ease of use for users. Additionally, developers should provide users with the ability to customize keyboard shortcuts based on their preferences.', 17, '2023-07-28', 19, 11,  13, 'Implementing keyboard shortcuts enhances productivity and user experience for users who prefer keyboard input.', 'Resolved', '2. Fix as soon as possible', 'Fixed', '1.0', 19, '2023-08-02', 14, '2023-08-05'),
+( 14, 'Query', 'Minor', 'The application''s search functionality returns incomplete results when querying specific keywords, hindering users'' ability to find relevant information efficiently. Enhancing the search algorithm to improve result completeness would improve user satisfaction and productivity.', true, 'Search results are incomplete when querying specific keywords.', 'To improve search result completeness, developers should review and enhance the search algorithm to ensure that all relevant content is included in search results for queried keywords. This may involve refining search indexing criteria, expanding search queries to include synonyms or related terms, and prioritizing search results based on relevance. Thorough testing with representative search queries and datasets is necessary to validate the improvements and ensure comprehensive search coverage.', 18, '2023-08-01', 16, 17,  14, 'Enhancing search result completeness improves user satisfaction and productivity by delivering comprehensive search results.', 'Closed', '3. Fix before next milestone', 'Fixed', '1.0', 16, '2023-08-06', 15, '2023-08-09'),
+( 5, 'Coding Error', 'Serious', 'The application crashes randomly during video playback, disrupting media consumption and causing frustration for users. Resolving the crash issue is critical to ensure a seamless multimedia experience and maintain user satisfaction.', true, 'The application crashes during video playback.', 'To address the crash issue, developers should investigate potential memory leaks or resource conflicts in the video playback module. This may involve optimizing memory management, updating video codecs or drivers, and implementing error handling mechanisms to prevent crashes. Thorough testing with different video formats and playback scenarios is necessary to identify and resolve the root cause of the crash.', 20, '2023-08-05', 14, 18,  16, 'Resolving crash during video playback ensures a seamless multimedia experience for users.', 'Open', '1. Fix immediately', 'Pending', '1.0', NULL, NULL, NULL, NULL),
+( 8, 'Documentation', 'Minor', 'The application''s user manual lacks instructions on how to perform common tasks such as account registration and password reset, leaving users without guidance when using the application for the first time. Providing clear and concise instructions improves user onboarding and reduces support requests.', false, 'The user manual does not contain instructions for common tasks such as account registration and password reset.', 'To address the documentation gap, technical writers should update the user manual with step-by-step instructions for performing common tasks such as account registration, login, password reset, and account management. Instructions should be accompanied by screenshots or illustrations to assist users in following the steps visually. Additionally, providing troubleshooting tips for common issues encountered during account setup or password reset can further enhance user onboarding.', 11, '2023-08-10', 9, 8,  19, 'Providing instructions for common tasks improves user onboarding and reduces support requests.', 'Resolved', '2. Fix as soon as possible', 'Fixed', '1.0', 9, '2023-08-15', 17, '2023-08-18'),
+( 9, 'Hardware', 'Serious', 'The application crashes when connecting to a specific Wi-Fi network, disrupting network connectivity and preventing users from accessing online services. Resolving the crash issue is essential to ensure seamless network connectivity and maintain user productivity.', true, 'The application crashes when connecting to a specific Wi-Fi network.', 'To address the crash issue, developers should investigate compatibility issues between the application and the Wi-Fi network hardware or drivers. This may involve updating Wi-Fi drivers, adjusting network configuration settings, or implementing error handling mechanisms to prevent crashes. Thorough testing on different Wi-Fi networks and device configurations is necessary to identify and resolve the root cause of the crash.', 10, '2023-08-15', 12, 10,  15, 'Resolving crash when connecting to specific Wi-Fi network ensures seamless network connectivity for users.', 'Closed', '1. Fix immediately', 'Fixed', '1.0', 12, '2023-08-20', 11, '2023-08-23'),
+( 12, 'Query', 'Minor', 'The application''s database queries experience slow performance when retrieving large datasets, leading to delays in data processing and analysis. Optimizing database query performance would improve overall application responsiveness and user satisfaction.', true, 'Database queries are slow when retrieving large datasets.', 'To optimize database query performance, developers should review and optimize database indexes, query execution plans, and database server configurations. This may involve adding or optimizing indexes for frequently queried columns, rewriting complex queries to improve efficiency, and tuning database server parameters for optimal resource utilization. Thorough performance testing with representative datasets is necessary to validate the improvements and ensure responsive data retrieval.', 9, '2023-08-20', 15, 18,  13, 'Optimizing database query performance improves application responsiveness and user satisfaction.', 'In Progress', '2. Fix as soon as possible', 'Pending', '1.0', NULL, NULL, NULL, NULL),
+( 6, 'Suggestion', 'Minor', 'The application could benefit from implementing a dark mode feature to reduce eye strain and improve readability in low-light environments. Introducing dark mode enhances user comfort and accessibility, especially during nighttime usage.', false, 'The application lacks dark mode feature for low-light environments.', 'To implement dark mode, developers should introduce a dark color scheme for the application''s user interface elements, including backgrounds, text, and icons. Additionally, developers should provide users with the option to toggle between light and dark mode based on their preferences. Thorough testing in various lighting conditions is necessary to ensure the effectiveness and visual consistency of the dark mode implementation.', 16, '2023-08-25', 11, 9,  14, 'Implementing dark mode improves user comfort and accessibility during nighttime usage.', 'Open', '3. Fix before next milestone', 'Pending', '1.0', NULL, NULL, NULL, NULL),
+( 2, 'Design Issue', 'Minor', 'The application''s user interface elements lack responsiveness on mobile devices with small screens, making it difficult for users to interact with the application effectively. Enhancing mobile responsiveness improves usability and accessibility for users on various devices.', false, 'UI elements are not responsive on mobile devices with small screens.', 'To address the responsiveness issue, designers and developers should implement responsive design techniques such as fluid layouts, flexible grids, and media queries to adapt the application''s UI elements to different screen sizes and resolutions. Additionally, designers should prioritize content and actions based on importance and screen real estate, ensuring a seamless user experience across devices. Thorough testing on different mobile devices and screen sizes is necessary to validate the responsiveness improvements.', 5, '2023-08-30', 6, 5,  15, 'Enhancing mobile responsiveness improves usability and accessibility across various devices.', 'Closed', '4. Fix before release', 'Fixed', '1.0', 6, '2023-09-04', 16, '2023-09-07'),
+( 1, 'Coding Error', 'Fatal', 'The application crashes when users attempt to upload large files, resulting in data loss and system instability. Resolving the crash issue is critical to ensure data integrity and prevent disruptions to users'' workflows.', true, 'The application crashes during file upload of large files.', 'To address the crash issue, developers should analyze the file upload process and identify potential memory or resource limitations causing the application to crash. This may involve optimizing memory management, implementing chunked file uploads to handle large files efficiently, and enhancing error handling mechanisms to prevent data loss. Thorough testing with various file sizes and types is necessary to validate the fix and ensure stable file uploads.', 7, '2023-09-10', 2, 4,  10, 'Resolving crash during file upload ensures data integrity and system stability.', 'In Progress', '1. Fix immediately', 'Pending', '1.0', NULL, NULL, NULL, NULL),
+( 3, 'Design Issue', 'Minor', 'The application''s login screen lacks visual feedback when users interact with the login button, leading to confusion about the login process. Adding visual feedback improves user experience and provides clear indications of successful interactions.', false, 'The login button does not provide visual feedback upon interaction.', 'To address the design issue, designers and developers should inspect the login button''s styling and behavior to ensure it provides visual feedback, such as button hover effects, click animations, or color changes, when users interact with it. Additionally, developers should consider implementing form validation to provide feedback on login input fields and guide users through the login process. Thorough testing across browsers and devices is necessary to ensure consistent behavior and visual feedback.', 16, '2023-09-15', 8, 9,  18, 'Providing visual feedback on the login button enhances user experience and clarity during the login process.', 'Open', '5. Fix if possible', 'Pending', '1.0', NULL, NULL, NULL, NULL),
+( 5, 'Query', 'Minor', 'The application''s search functionality returns irrelevant results for specific query terms, making it challenging for users to find relevant information. Improving search result relevance enhances user satisfaction and productivity.', true, 'Search results are irrelevant for specific query terms.', 'To improve search result relevance, developers should review the search algorithm and adjust weighting or ranking criteria to prioritize more relevant content for specific query terms. This may involve analyzing user search patterns and feedback to fine-tune search algorithms, incorporating synonym detection or stemming techniques to broaden search scope, and implementing relevance feedback mechanisms to continuously improve search accuracy. Thorough testing with representative search queries and datasets is necessary to validate the improvements and ensure more relevant search results.', 8, '2023-09-20', 14, 17,  16, 'Improving search result relevance enhances user satisfaction and productivity.', 'In Progress', '2. Fix as soon as possible', 'Pending', '1.0', NULL, NULL, NULL, NULL),
+( 9, 'Hardware', 'Serious', 'The application crashes intermittently when users switch between different Wi-Fi networks, disrupting network connectivity and causing frustration for users. Resolving the crash issue is essential to ensure seamless network transitions and maintain user productivity.', true, 'The application crashes when switching between Wi-Fi networks.', 'To address the crash issue, developers should investigate potential conflicts or race conditions in the network transition process when switching between Wi-Fi networks. This may involve optimizing network state management, implementing error recovery mechanisms to handle network disruptions gracefully, and ensuring proper synchronization between network threads. Thorough testing in various network environments and transition scenarios is necessary to identify and resolve the root cause of the crash.', 13, '2023-09-25', 12, 10,  15, 'Resolving crash when switching Wi-Fi networks ensures seamless network transitions for users.', 'Closed', '1. Fix immediately', 'Fixed', '1.0', 12, '2023-09-30', 11, '2023-10-03'),
+( 4, 'Documentation', 'Minor', 'The application''s user manual lacks instructions on how to configure advanced settings for power management, resulting in confusion for users attempting to optimize power usage. Providing clear instructions improves user understanding and efficiency in managing power settings.', false, 'The user manual does not contain instructions for configuring advanced power settings.', 'To address the documentation gap, technical writers should update the user manual with detailed instructions for configuring advanced power management settings, such as sleep mode, screen brightness, and battery optimization. Instructions should cover common scenarios and provide troubleshooting tips for handling power-related issues effectively. Additionally, providing visual aids such as screenshots or diagrams can enhance user comprehension of the power management features.', 10, '2023-10-01', 9, 8,  19, 'Providing instructions for configuring advanced power settings improves user efficiency and reduces confusion.', 'Resolved', '2. Fix as soon as possible', 'Fixed', '1.0', 9, '2023-10-05', 17, '2023-10-08'),
+( 2, 'Coding Error', 'Serious', 'The application crashes when users attempt to access encrypted files, resulting in data loss and system instability. Resolving the crash issue is critical to ensure data integrity and maintain user trust.', true, 'The application crashes when accessing encrypted files.', 'To address the crash issue, developers should review the file decryption process and identify potential memory corruption or buffer overflow vulnerabilities causing the application to crash. This may involve implementing secure memory handling practices, validating input parameters to prevent buffer overflows, and enhancing error handling mechanisms to gracefully handle decryption failures. Thorough testing with encrypted files and different decryption keys is necessary to identify and mitigate security risks.', 6, '2023-10-05', 6, 5,  15, 'Resolving crash when accessing encrypted files ensures data integrity and system stability.', 'Open', '1. Fix immediately', 'Pending', '1.0', NULL, NULL, NULL, NULL),
+( 7, 'Design Issue', 'Minor', 'The application''s user interface lacks visual feedback when users attempt to drag and drop files for upload, making it difficult to determine if the action was successful. Providing visual feedback enhances user experience and confidence in performing file operations.', false, 'Drag and drop file upload lacks visual feedback upon successful interaction.', 'To address the design issue, designers and developers should enhance the drag and drop file upload feature to provide visual feedback, such as highlighting the drop zone or displaying a confirmation message, when files are successfully uploaded. Additionally, developers should ensure that error messages are displayed clearly if file uploads fail due to invalid file formats or other issues. Thorough testing with various file types and upload scenarios is necessary to ensure consistent behavior and visual feedback.', 14, '2023-10-10', 3, 2,  12, 'Providing visual feedback on drag and drop file upload enhances user experience and confidence.', 'In Progress', '3. Fix before next milestone', 'Pending', '1.0', NULL, NULL, NULL, NULL),
+( 8, 'Suggestion', 'Minor', 'The application could benefit from implementing keyboard shortcuts for common tasks such as navigation, saving, and undoing actions. Introducing keyboard shortcuts improves user productivity and accessibility by providing alternative input methods.', true, 'The application lacks keyboard shortcuts for common tasks.', 'To implement keyboard shortcuts, developers should define intuitive key combinations for frequently used actions such as navigation (e.g., arrow keys), saving (e.g., Ctrl + S), and undoing actions (e.g., Ctrl + Z). Additionally, developers should provide users with the ability to customize keyboard shortcuts based on their preferences and accessibility needs. Thorough testing across different operating systems and keyboard configurations is necessary to ensure compatibility and usability of the keyboard shortcut feature.', 11, '2023-10-15', 7, 6,  13, 'Implementing keyboard shortcuts improves user productivity and accessibility.', 'Resolved', '4. Fix before release', 'Fixed', '1.0', 7, '2023-10-20', 12, '2023-10-23'),
+( 11, 'Coding Error', 'Serious', 'The application crashes intermittently when users attempt to perform complex database queries, resulting in data loss and system instability. Resolving the crash issue is essential to ensure data integrity and maintain user productivity.', true, 'The application crashes during complex database queries.', 'To address the crash issue, developers should analyze the database query execution process and identify potential memory leaks or resource exhaustion causing the application to crash. This may involve optimizing query performance, implementing query timeout mechanisms to prevent long-running queries from consuming excessive resources, and enhancing error handling mechanisms to gracefully handle database connection failures. Thorough testing with complex query scenarios and large datasets is necessary to identify and resolve the root cause of the crash.', 3, '2023-10-20', 15, 18,  13, 'Resolving crash during complex database queries ensures data integrity and system stability.', 'Open', '1. Fix immediately', 'Pending', '1.0', NULL, NULL, NULL, NULL),
+( 10, 'Query', 'Minor', 'The application''s search functionality returns inconsistent results for specific search queries, making it challenging for users to find relevant information. Improving search result consistency enhances user satisfaction and usability.', true, 'Search results are inconsistent for specific search queries.', 'To improve search result consistency, developers should review the search algorithm and address any inconsistencies or ambiguities in search result ranking or relevance. This may involve fine-tuning ranking factors, adjusting relevance thresholds, and incorporating user feedback signals to improve result accuracy. Additionally, developers should ensure that search indexes are updated regularly to reflect changes in content and user preferences. Thorough testing with representative search queries and user scenarios is necessary to validate the improvements and ensure consistent search results.', 4, '2023-10-25', 4, 3,  11, 'Improving search result consistency enhances user satisfaction and usability.', 'Resolved', '2. Fix as soon as possible', 'Fixed', '1.0', 4, '2023-10-30', 7, '2023-11-02');
+
+
+
+INSERT INTO "Attachment" ("Problem_Report_Number", "File_Name", "Attachment_Content")
+VALUES
+(1, 'sample2.txt', 'sample content1'),
+(2, 'file1.txt', 'This is the content of file1.'),
+(3, 'file2.txt', 'This is the content of file2.'),
+(4, 'file3.txt', 'This is the content of file3.'),
+(5, 'file4.txt', 'This is the content of file4.'),
+(6, 'file5.txt', 'This is the content of file5.'),
+(7, 'file6.txt', 'This is the content of file6.'),
+(8, 'file7.txt', 'This is the content of file7.'),
+(9, 'file8.txt', 'This is the content of file8.'),
+( 10, 'file9.txt', 'This is the content of file9.'),
+( 11, 'file10.txt', 'This is the content of file10.'),
+( 12, 'file11.txt', 'This is the content of file11.'),
+( 13, 'file12.txt', 'This is the content of file12.'),
+( 14, 'file13.txt', 'This is the content of file13.'),
+( 15, 'file14.txt', 'This is the content of file14.'),
+( 16, 'file15.txt', 'This is the content of file15.'),
+( 17, 'file16.txt', 'This is the content of file16.'),
+( 18, 'file17.txt', 'This is the content of file17.'),
+( 19, 'file18.txt', 'This is the content of file18.'),
+( 20, 'file19.txt', 'This is the content of file19.'),
+( 21, 'file20.txt', 'This is the content of file20.'),
+( 22, 'file21.txt', 'This is the content of file21.'),
+( 23, 'file22.txt', 'This is the content of file22.'),
+( 24, 'file23.txt', 'This is the content of file23.'),
+( 25, 'file24.txt', 'This is the content of file24.'),
+( 26, 'file25.txt', 'This is the content of file25.'),
+( 27, 'file26.txt', 'This is the content of file26.'),
+( 28, 'file27.txt', 'This is the content of file27.'),
+( 29, 'file28.txt', 'This is the content of file28.'),
+( 30, 'file29.txt', 'This is the content of file29.'),
+( 31, 'file30.txt', 'This is the content of file30.'),
+( 32, 'file31.txt', 'This is the content of file31.'),
+( 33, 'file32.txt', 'This is the content of file32.'),
+( 34, 'file33.txt', 'This is the content of file33.'),
+( 35, 'file34.txt', 'This is the content of file34.'),
+( 36, 'file35.txt', 'This is the content of file35.'),
+( 37, 'file36.txt', 'This is the content of file36.'),
+( 38, 'file37.txt', 'This is the content of file37.'),
+( 39, 'file38.txt', 'This is the content of file38.'),
+( 40, 'file39.txt', 'This is the content of file39.'),
+( 41, 'file40.txt', 'This is the content of file40.'),
+( 42, 'file41.txt', 'This is the content of file41.'),
+( 43, 'file42.txt', 'This is the content of file42.'),
+( 44, 'file43.txt', 'This is the content of file43.'),
+( 45, 'file44.txt', 'This is the content of file44.'),
+( 46, 'file45.txt', 'This is the content of file45.'),
+( 47, 'file46.txt', 'This is the content of file46.'),
+( 48, 'file47.txt', 'This is the content of file47.'),
+( 49, 'file48.txt', 'This is the content of file48.'),
+( 50, 'file49.txt', 'This is the content of file49.'),
+( 51, 'file50.txt', 'This is the content of file50.'),
+( 52, 'file51.txt', 'This is the content of file51.'),
+( 53, 'file52.txt', 'This is the content of file52.'),
+( 54, 'file53.txt', 'This is the content of file53.'),
+( 55, 'file54.txt', 'This is the content of file54.'),
+( 1, 'file55.txt', 'This is the content of file55.'),
+( 2, 'file56.txt', 'This is the content of file56.'),
+( 3, 'file57.txt', 'This is the content of file57.'),
+( 4, 'file58.txt', 'This is the content of file58.'),
+( 5, 'file59.txt', 'This is the content of file59.'),
+( 6, 'file60.txt', 'This is the content of file60.'),
+( 7, 'file61.txt', 'This is the content of file61.'),
+( 8, 'file62.txt', 'This is the content of file62.'),
+( 9, 'file63.txt', 'This is the content of file63.'),
+( 10, 'file64.txt', 'This is the content of file64.'),
+( 11, 'file65.txt', 'This is the content of file65.'),
+( 12, 'file66.txt', 'This is the content of file66.'),
+( 13, 'file67.txt', 'This is the content of file67.'),
+( 14, 'file68.txt', 'This is the content of file68.'),
+( 15, 'file69.txt', 'This is the content of file69.'),
+( 16, 'file70.txt', 'This is the content of file70.'),
+( 17, 'file71.txt', 'This is the content of file71.'),
+( 18, 'file72.txt', 'This is the content of file72.'),
+( 19, 'file73.txt', 'This is the content of file73.'),
+( 20, 'file74.txt', 'This is the content of file74.'),
+( 21, 'file75.txt', 'This is the content of file75.'),
+( 22, 'file76.txt', 'This is the content of file76.'),
+( 23, 'file77.txt', 'This is the content of file77.'),
+( 24, 'file78.txt', 'This is the content of file78.'),
+( 25, 'file79.txt', 'This is the content of file79.'),
+( 26, 'file80.txt', 'This is the content of file80.'),
+( 27, 'file81.txt', 'This is the content of file81.'),
+( 28, 'file82.txt', 'This is the content of file82.'),
+( 29, 'file83.txt', 'This is the content of file83.'),
+( 30, 'file84.txt', 'This is the content of file84.'),
+( 31, 'file85.txt', 'This is the content of file85.'),
+( 32, 'file86.txt', 'This is the content of file86.'),
+( 33, 'file87.txt', 'This is the content of file87.'),
+( 34, 'file88.txt', 'This is the content of file88.'),
+( 35, 'file89.txt', 'This is the content of file89.'),
+( 36, 'file90.txt', 'This is the content of file90.'),
+( 37, 'file91.txt', 'This is the content of file91.'),
+( 38, 'file92.txt', 'This is the content of file92.'),
+( 39, 'file93.txt', 'This is the content of file93.'),
+( 40, 'file94.txt', 'This is the content of file94.'),
+( 41, 'file95.txt', 'This is the content of file95.'),
+( 42, 'file96.txt', 'This is the content of file96.'),
+( 43, 'file97.txt', 'This is the content of file97.'),
+( 44, 'file98.txt', 'This is the content of file98.'),
+( 45, 'file99.txt', 'This is the content of file99.');
