@@ -2,8 +2,8 @@
 # BugHound
 ### Bughound Bug Tracking Software
 
-**Overview:**
 Bughound is a web-based bug recording and tracking software designed for authorized users. It facilitates efficient management of bugs across multiple products, ensuring streamlined communication and resolution within development teams.
+
 
 **Key Features:**
 - **User-friendly Interface:** Create, edit, and update bug reports effortlessly using a web browser.
@@ -32,6 +32,29 @@ Bughound is a web-based bug recording and tracking software designed for authori
 - **Priority:** Assigned priority level indicating the urgency of fixing the problem.
 - **Resolution:** Current resolution status of the problem (e.g., fixed, pending, cannot be reproduced).
 
+**Instructions for Setting Up BugHound Project:**
+1. **Clone the Repository:** Begin by cloning the BugHound repository to your local machine 
+
+2. **Navigate to Project Directory:** Move into the BugHound project directory
+
+3. **Test Data** Open the docker-compose.yml file and locate line 16. Uncomment this line to enable insertion of test data into the BugHound database.
+
+4. **Start Project Inside Containers:** Utilize Docker Compose to initiate the project within containers:
+   ```
+   docker-compose up
+   ```
+
+5. **Access the Application:** Once the containers are up and running, access the BugHound application via your web browser using the following URL:
+   ```
+   http://localhost:8080/login
+   ```
+
+6. **Login with Default Credentials:**
+   - **Username:** ```admin```
+   - **Password:** ```j;0dTY85wlT5zMI```
+
+7. **Begin Bug Tracking:** You're now logged in and ready to start tracking bugs efficiently using BugHound.
+**Note:** Ensure that Docker and Docker Compose are installed on your system before proceeding with the setup process.
 
 # Setup Dev Environment
 ## Database (PostgreSQL)
@@ -124,5 +147,4 @@ Initializing Database:
 
 Cleanup: 
     - After you're done with your Docker containers, it's good practice to delete any unused volumes, images, and containers. You can use Docker commands like `docker volume prune`, `docker image prune`, and `docker container prune` for this purpose.
-```
 ```
