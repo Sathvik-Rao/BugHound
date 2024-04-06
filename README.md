@@ -5,6 +5,11 @@
 Bughound is a web-based bug recording and tracking software designed for authorized users. It facilitates efficient management of bugs across multiple products, ensuring streamlined communication and resolution within development teams.
 
 
+
+https://github.com/Sathvik-Rao/BugHound/assets/36164509/4bf199aa-8195-4103-a314-1797b4a48c58
+
+
+
 **Key Features:**
 - **User-friendly Interface:** Create, edit, and update bug reports effortlessly using a web browser.
 - **Relational Database Storage:** Store error report content in relational tables, accessible via SQL for easy retrieval and analysis.
