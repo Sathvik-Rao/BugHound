@@ -1,6 +1,27 @@
 
 # BugHound
-### Bughound Bug Tracking Software
+
+
+Welcome to the Project Bughound! Check out the live demo below:
+
+<p align="center">
+  <a href="https://bughound.sathvik.dev" target="_blank">
+    <img src="https://via.placeholder.com/300x80/4CAF50/FFFFFF?text=Go+to+Live+Demo&size=30&bold=true" alt="Live Demo">
+  </a>
+</p>
+
+## Access the Demo
+
+To access the demo, use the following credentials:
+
+| Username   | Password       | Role         |
+|------------|----------------|--------------|
+| user1      | user1          | User         |
+| user2      | user2          | Manager      |
+|            |                | Admin        |
+
+
+## Bughound Bug Tracking Software
 
 Bughound is a web-based bug recording and tracking software designed for authorized users. It facilitates efficient management of bugs across multiple products, ensuring streamlined communication and resolution within development teams.
 
